@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.7.1"
   },
@@ -26,15 +27,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest",
-      "eslint:recommended",
-      "prettier",
-      "prettier/react"
-    ]
   },
   "browserslist": {
     "production": [
