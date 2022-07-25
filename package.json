@@ -2,16 +2,26 @@
   "name": "book-club",
   "version": "0.1.0",
   "private": true,
+  "devDependencies": {
+    "eslint": "^8.20.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.7.1"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "lodash-es": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.2",
+    "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "format": "prettier \"src/**/*.{js,html,css}\" --write",
+    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -20,7 +30,10 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "eslint:recommended",
+      "prettier",
+      "prettier/react"
     ]
   },
   "browserslist": {
