@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import BooksContainer from "./BooksContainer";
 import { GlobalStyle } from "./Styles";
 import Header from "./Header";
+import DetailPanel from "./DetailPanel";
 
 const App = () => {
   const [books, setBooks] = useState([]);
@@ -33,6 +34,10 @@ const App = () => {
   const pickBook = (book) => {
     setSelectedBook(book);
   };
+
+  const closePanel = () => {
+    setSelectedBook(null);
+  };
   console.log(selectedBook);
 
   // console.log(`the books array in our state: `, books);
@@ -40,7 +45,14 @@ const App = () => {
     <>
       <GlobalStyle />
       <Header />
-      <BooksContainer books={books} pickBook={pickBook} />
+      <BooksContainer
+        books={books}
+        pickBook={pickBook}
+        isPanelOpen={selectedBook !== null}
+      />
+      {selectedBook && (
+        <DetailPanel book={selectedBook} closePanel={closePanel} />
+      )}
     </>
   );
 };

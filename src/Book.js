@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.figure`
-  cursor: pointer;
+  cursor: ${({ $isLarge }) => ($isLarge ? "default" : "pointer")};
   margin: 0;
 `;
 
@@ -16,9 +16,13 @@ const Cover = styled.img`
 `;
 
 const Title = styled.h3`
-  font-size: 28px;
+  font-size: ${({ $isLarge }) => ($isLarge ? "42px" : "28px")};
   margin: 0 0 10px 0;
   line-height: 1.3;
+
+  @media (max-width: 800px) {
+    font-size: ${({ $isLarge }) => ($isLarge ? "32px" : "22px")};
+  }
 `;
 const Author = styled.h4`
   font-size: 16px;
@@ -28,14 +32,14 @@ const Author = styled.h4`
   font-style: italic;
 `;
 
-const Book = ({ book, pickBook }) => (
-  <Container onClick={() => pickBook(book)}>
+const Book = ({ book, pickBook, isLarge }) => (
+  <Container $isLarge={isLarge} onClick={() => pickBook(book)}>
     <Cover
       alt={`Book cover for ${book.title} by ${book.author}`}
       src={book.image}
     />
     <figcaption>
-      <Title>{book.title}</Title>
+      <Title $isLarge={isLarge}>{book.title}</Title>
       <Author>by {book.author}</Author>
     </figcaption>
   </Container>
