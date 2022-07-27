@@ -5,7 +5,7 @@ import Header from "./Header";
 
 const App = () => {
   const [books, setBooks] = useState([]);
-
+  const [selectedBook, setSelectedBook] = useState(null);
   console.log("this message is going to load everytime the component renders");
 
   useEffect(() => {
@@ -30,12 +30,17 @@ const App = () => {
     fetchData();
   }, []);
 
-  console.log(`the books array in our state: `, books);
+  const pickBook = (book) => {
+    setSelectedBook(book);
+  };
+  console.log(selectedBook);
+
+  // console.log(`the books array in our state: `, books);
   return (
     <>
       <GlobalStyle />
       <Header />
-      <BooksContainer books={books} />
+      <BooksContainer books={books} pickBook={pickBook} />
     </>
   );
 };

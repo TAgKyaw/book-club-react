@@ -28,8 +28,8 @@ const Author = styled.h4`
   font-style: italic;
 `;
 
-const Book = ({ book }) => (
-  <Container>
+const Book = ({ book, pickBook }) => (
+  <Container onClick={() => pickBook(book)}>
     <Cover
       alt={`Book cover for ${book.title} by ${book.author}`}
       src={book.image}
