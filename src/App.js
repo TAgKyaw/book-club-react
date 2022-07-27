@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Transition } from "react-transition-group";
 import BooksContainer from "./BooksContainer";
 import { GlobalStyle } from "./Styles";
 import Header from "./Header";
@@ -7,6 +8,7 @@ import DetailPanel from "./DetailPanel";
 const App = () => {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [showPanel, setShowPanel] = useState(false);
   console.log("this message is going to load everytime the component renders");
 
   useEffect(() => {
@@ -33,10 +35,11 @@ const App = () => {
 
   const pickBook = (book) => {
     setSelectedBook(book);
+    setShowPanel(true);
   };
 
   const closePanel = () => {
-    setSelectedBook(null);
+    setShowPanel(false);
   };
   console.log(selectedBook);
 
@@ -48,11 +51,17 @@ const App = () => {
       <BooksContainer
         books={books}
         pickBook={pickBook}
-        isPanelOpen={selectedBook !== null}
+        isPanelOpen={showPanel}
       />
-      {selectedBook && (
-        <DetailPanel book={selectedBook} closePanel={closePanel} />
-      )}
+      <Transition in={showPanel} timeout={300}>
+        {(state) => (
+          <DetailPanel
+            book={selectedBook}
+            closePanel={closePanel}
+            state={state}
+          />
+        )}
+      </Transition>
     </>
   );
 };
