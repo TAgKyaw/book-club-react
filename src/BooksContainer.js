@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { debounce } from "lodash-es";
 import styled from "styled-components";
 import Book from "./Book";
 
@@ -7,7 +8,7 @@ const Container = styled.div`
   padding: 160px 40px;
   overflow: ${({ $isPanelOpen }) => ($isPanelOpen ? "hidden" : "scroll")};
   position: ${({ $isPanelOpen }) => ($isPanelOpen ? "fixed" : "unset")};
-
+  top: ${({ $isPanelOpen, $top }) => ($isPanelOpen ? `-${$top}px` : 0)};
   @media (max-width: 800px) {
     padding: 114px 20px;
   }
@@ -41,14 +42,38 @@ const BookList = styled.div`
   }
 `;
 
-const BooksContainer = ({ books, pickBook, isPanelOpen }) => (
-  <Container $isPanelOpen={isPanelOpen}>
-    <H2>ALL BOOKS</H2>
-    <BookList>
-      {books.map((book) => (
-        <Book key={book.id} book={book} pickBook={pickBook} />
-      ))}
-    </BookList>
-  </Container>
-);
+const BooksContainer = ({ books, pickBook, isPanelOpen }) => {
+  const [scroll, setScroll] = useState();
+  const prevPanelState = useRef(false);
+
+  useEffect(() => {
+    const handleScroll = debounce(() => {
+      setScroll(window.scrollY);
+    }, 100);
+    if (!isPanelOpen) {
+      window.addEventListener("scroll", handleScroll);
+    }
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isPanelOpen]);
+
+  useEffect(() => {
+    if (prevPanelState.current && !isPanelOpen) {
+      window.scroll(0, scroll);
+    }
+    prevPanelState.current = isPanelOpen;
+  }, [isPanelOpen, prevPanelState, scroll]);
+
+  return (
+    <Container $isPanelOpen={isPanelOpen} $top={scroll}>
+      <H2>ALL BOOKS</H2>
+      <BookList>
+        {books.map((book) => (
+          <Book key={book.id} book={book} pickBook={pickBook} />
+        ))}
+      </BookList>
+    </Container>
+  );
+};
 export default BooksContainer;
